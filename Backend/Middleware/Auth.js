@@ -4,12 +4,15 @@ export const AuthCheck = async (req, res, next) => {
   try {
     const token = req.headers["auth-token"];
     console.log(token);
+
     if (!token) {
-      res.status(401).json({ message: "Unauthorized" });
+      return res.send({ success: false, message: "invalid token" });
     }
 
-    const decodeValue = await jwt.verify(token, "helloworld");
-    console.log(decodeValue);
+    const decodevalue = await jwt.verify(token, "helloworld");
+    console.log(decodevalue);
+    req.user = decodevalue;
+    next();
   } catch (error) {
     throw error;
   }

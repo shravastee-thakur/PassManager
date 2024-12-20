@@ -7,10 +7,6 @@ let route = Router();
 // login
 route.post("/login", LoginUser);
 
-route.get("/getpassword", AuthCheck, (req, res) => {
-  res.send({ message: "Password fetched successfully" });
-});
-
 // signup
 route.post("/signup", SignupUser);
 
