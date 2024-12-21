@@ -14,6 +14,7 @@ export const AuthCheck = async (req, res, next) => {
     req.user = decodevalue;
     next();
   } catch (error) {
-    throw error;
+    console.log(error);
+    res.send({ success: false, message: error.message });
   }
 };

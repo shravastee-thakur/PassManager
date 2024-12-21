@@ -4,7 +4,11 @@ export const getPassword = async (req, res) => {
   const userid = req.user?._id;
   try {
     const allPassword = await passwordModel.find({ Author: userid });
-    res.send({ success: true, message: "Get all passwords" });
+    res.send({
+      success: true,
+      data: allPassword,
+      message: "Get all passwords",
+    });
   } catch (error) {}
 };
 
@@ -34,36 +38,9 @@ export const postPassword = async (req, res) => {
   }
 };
 
-// export const postPassword = async (req, res) => {
-//   const userid = req.user?._id;
-//   const { title, password } = req.body;
-//   try {
-//     if (!title || !password) {
-//       return res.send({ success: false, message: "please fill all field" });
-//     }
-
-//     const newpassword = new passwordModel({
-//       title,
-//       password,
-//       Author: userid,
-//     });
-
-//     await newpassword.save();
-
-//     return res.send({
-//       success: true,
-//       data: newpassword,
-//       message: "password save successfully",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.send({ success: false, message: error.message });
-//   }
-// };
-
 export const updatePassword = async (req, res) => {
   const userid = req.user?._id;
-  const pwid = req.params;
+  const pwid = req.params.id;
   const { title, password } = req.body;
   try {
     if (!title || !password) {
@@ -71,7 +48,7 @@ export const updatePassword = async (req, res) => {
     }
 
     const updatePassword = await passwordModel.findOneAndUpdate(
-      { _id: id, Author: userid },
+      { _id: pwid, Author: userid },
       {
         $set: {
           title,
@@ -80,7 +57,11 @@ export const updatePassword = async (req, res) => {
       },
       { new: true }
     );
-    res.send({ success: true, message: "Password updated successfully" });
+    res.send({
+      success: true,
+      data: updatePassword,
+      message: "Password updated successfully",
+    });
   } catch (error) {
     console.log(error);
     res.send({ success: false, message: "Error in updating password" });
@@ -89,9 +70,9 @@ export const updatePassword = async (req, res) => {
 
 export const deletePassword = async (req, res) => {
   const userid = req.user?._id;
-  const pwid = req.params;
+  const pwid = req.params.id;
   try {
-    await passwordModel.findOneAndDelete({ _id: id, Author: userid });
+    await passwordModel.findOneAndDelete({ _id: pwid, Author: userid });
     res.send({ success: true, message: "Password deleted successfully" });
   } catch (error) {
     console.log(error);
