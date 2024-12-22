@@ -11,45 +11,6 @@ const SignUp = () => {
   });
   console.log(user);
 
-  // const HandleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const formdata = new FormData();
-  //   formdata.append("name", user?.name);
-  //   formdata.append("email", user?.email);
-  //   formdata.append("password", user?.password);
-
-  //   try {
-  //     const res = await axios.post(
-  //       "http://localhost:3000/pwm/api/user/signup",
-  //       formdata,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-
-  //     let data = res?.data;
-  //     console.log(data);
-  //     if (data?.success) {
-  //       localStorage.setItem("token", data?.data?.refreshtoken);
-  //       localStorage.setItem("userid", data?.data?._id);
-
-  //       console.log(localStorage.getItem("token")); // Debug output
-
-  //       Navigate("/");
-  //       setUser({ name: "", email: "", password: "" });
-  //     } else {
-  //       console.log(data?.message);
-  //     }
-
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const HandleSubmit = async (e) => {
     e.preventDefault();
 
@@ -64,25 +25,31 @@ const SignUp = () => {
         formdata,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Update here
+            "Content-Type": "application/json",
           },
         }
       );
 
-      let data = res?.data;
-      console.log(data);
-      if (data?.success) {
-        localStorage.setItem("token", data?.data?.refreshtoken);
-        localStorage.setItem("userid", data?.data?._id);
+      let data = res.data;
+      console.log("Api response:", data);
 
-        console.log("Token stored:", localStorage.getItem("token"));
+      if (data?.data?.refreshtoken && data?.data?._id) {
+        // Store in localStorage
+        localStorage.setItem("token", data.data.refreshtoken);
+        localStorage.setItem("userid", data.data._id);
+
+        // Verify values
+        console.log("Token Stored:", localStorage.getItem("token"));
+        console.log("User ID Stored:", localStorage.getItem("userid"));
+
+        // Navigate and reset user
         Navigate("/");
         setUser({ name: "", email: "", password: "" });
       } else {
-        console.log(data?.message);
+        console.error("Error: Invalid API Response", data);
       }
     } catch (error) {
-      console.log("Error:", error);
+      console.log(error);
     }
   };
 

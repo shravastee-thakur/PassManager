@@ -28,7 +28,9 @@ export const LoginUser = async (req, res) => {
     }
     existUser.refreshtoken = token;
     existUser.save({ validateBeforeSave: true });
-    res.status(200).json({ message: "User logged in successfully" });
+    res
+      .status(200)
+      .json({ data: existUser, message: "User logged in successfully" });
   } catch (error) {
     throw error;
   }
@@ -67,7 +69,9 @@ export const SignupUser = async (req, res) => {
     newUser.refreshtoken = token;
     newUser.save({ validateBeforeSave: true });
 
-    res.status(201).json({ message: "User created successfully" });
+    res
+      .status(201)
+      .json({ data: newUser, message: "User created successfully" });
   } catch (error) {
     throw error;
   }
