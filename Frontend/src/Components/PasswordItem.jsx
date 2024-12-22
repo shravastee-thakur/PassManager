@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const PasswordItem = () => {
+  const [viewPass, setViewPass] = useState(false);
+  const [updatePass, setUpdatePass] = useState({
+    id: "",
+    bol: false,
+  });
   return (
     <>
-      <div className="flex flex-col gap-3 bg-white p-5 w-1/4 rounded-md">
+      <div className="flex flex-col gap-3 bg-white p-5 rounded-md">
         <input
           type="text"
           placeholder="Enter title"
@@ -13,13 +20,26 @@ const PasswordItem = () => {
           disabled
         />
 
-        <div className="w-full">
+        <div className="w-full relative">
           <input
-            type="password"
+            type={viewPass ? "text" : "password"}
             placeholder="Enter password"
             className="ring-1 ring-gray-300 rounded-sm p-1 w-full"
             disabled
           />
+          {viewPass ? (
+            <VisibilityIcon
+              onClick={() => setViewPass(!viewPass)}
+              fontSize="small"
+              className="absolute right-2 top-2 cursor-pointer"
+            />
+          ) : (
+            <VisibilityOffIcon
+              onClick={() => setViewPass(!viewPass)}
+              fontSize="small"
+              className="absolute right-2 top-2 cursor-pointer"
+            />
+          )}
         </div>
 
         <div className="flex justify-end items-center gap-1">

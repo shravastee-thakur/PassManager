@@ -1,7 +1,10 @@
 import React from "react";
 import PasswordItem from "../Components/PasswordItem";
+import { usePasswordContext } from "../Context/PasswordContext";
 
 const Home = () => {
+  console.log(usePasswordContext());
+
   return (
     <div className="min-h-screen w-full bg-slate-200 p-5">
       <div className=" bg-slate-500 relative flex w-full">
@@ -38,7 +41,11 @@ const Home = () => {
       </section>
 
       {/* password section */}
-      <section>
+      <section className="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <PasswordItem />
+        <PasswordItem />
+        <PasswordItem />
+        <PasswordItem />
         <PasswordItem />
       </section>
     </div>
